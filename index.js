@@ -13,6 +13,10 @@ proxy.on('proxyReq', function(proxyReq, req, res, options) {
   console.log("Got request for: " + req.url);
 });
 
+proxy.on('error', function(e) {
+  console.log("Error: " + e.message);
+});
+
 //
 // Create your server that makes an operation that waits a while
 // and then proxies the request
