@@ -22,7 +22,6 @@ proxy.on('error', function(e) {
 // and then proxies the request
 //
 var server = http.createServer(function (req, res) {
-  // This simulates an operation that takes 500ms to execute
   proxy.web(req, res, {
     target: destHost
   });
