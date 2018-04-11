@@ -1,5 +1,4 @@
-var destHost = process.argv[3];
-var listenPort = process.argv[2];
+var destHost = process.env.WEBCAMPROXY_DESTHOST
 
 process.binding('http_parser').HTTPParser = require('http-parser-js').HTTPParser;
 var http = require('http'),
@@ -25,5 +24,5 @@ var server = http.createServer(function (req, res) {
   });
 });
 
-console.log("Server listening on port " + listenPort);
-server.listen(listenPort);
+console.log("Server listening...");
+server.listen(80);
