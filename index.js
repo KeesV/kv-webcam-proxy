@@ -1,8 +1,9 @@
 var destHost = process.env.WEBCAMPROXY_DESTHOST
 
 process.binding('http_parser').HTTPParser = require('http-parser-js').HTTPParser;
-var http = require('http'),
-    httpProxy = require('http-proxy');
+var http = require('http');
+var httpProxy = require('http-proxy');
+var url = require('url');
 
 //
 // Create a proxy server that cleans invalid headers by using http_parser module
@@ -22,9 +23,17 @@ proxy.on('error', function(e) {
 // and then proxies the request
 //
 var server = http.createServer(function (req, res) {
-  proxy.web(req, res, {
-    target: destHost
-  });
+  var pathName = url.parse(req.url).pathname;
+
+  if(pathName == "/health") {
+    res.writeHead(200, {'Content-type':'text/plain'});
+    res.write("OK");
+    res.end();
+  } else {
+    proxy.web(req, res, {
+      target: destHost
+    });
+  }
 });
 
 console.log("Server listening...");
